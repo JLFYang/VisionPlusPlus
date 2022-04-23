@@ -4,23 +4,45 @@
 from moviepy.editor import *
 import tkinter as tk
 from tkinter import filedialog
+from tkinter import Menu
 
 from moviepy.config import change_settings
 change_settings({"IMAGEMAGIC_BINARY": r"C:\Program Files\ImageMagick-7.1.0-Q16-HDRI\\magick.exe"})
 
-def open_dialog():
-    filename = filedialog.askopenfilename(initialdir = "/", title = "Select your Files", filetypes = [('All files', '*.mp4')])
-    print(filename) #This will be where we will add functionality, after importing a file
+class GUI(tk.Frame):
+    def __init__(self, master):
+        self.master = master
+        tk.Frame.__init__(self, self.master)
+        self.gui = self.configure_gui()
+        self.bar = self.configure_bar()
+
+    def configure_gui(self):
+        self.master.geometry("1280x760")
+        self.master.minsize(1280,760)
+        self.master.maxsize(1280,760)
+
+    def configure_bar(self):
+        menuBar = Menu(self.master, foreground='black')
+        fileMenu = Menu(menuBar, tearoff=False)
+        fileMenu.add_command(label="Import", command=self.open_dialog)
+        fileMenu.add_command(label="Export")
+        menuBar.add_cascade(label="File",menu=fileMenu)
+
+        functionMenu = Menu(menuBar, tearoff=False)
+        functionMenu.add_command(label="Trim")
+        functionMenu.add_command(label="Cut")
+        menuBar.add_cascade(label="Functions", menu=functionMenu)
+
+        self.master.config(menu=menuBar)
+
+    def open_dialog(self):
+        self.master.filename = filedialog.askopenfilename(initialdir = "/", title = "Select your Files", filetypes = [('All files', '*.mp4')])
+        if self.master.filename is not None:
+            clip = VideoFileClip(self.master.filename)
 
 if __name__ == '__main__':
     root = tk.Tk()
     root.title("Vision++")
-    root.geometry("1280x760")
-    root.minsize(1280,760)
-    root.maxsize(1280,760)
 
-    #Import Button
-    importButton = tk.Button(root, text = "Import", font=("Arial", 18), padx = 10, pady = 10, fg = "#FFF", bg = "#3528e8", command = open_dialog)
-    importButton.grid(sticky = "W", column = 0, row = 0, padx = 10, pady = 10)
-
+    app = GUI(root)
     root.mainloop()
