@@ -15,6 +15,7 @@ class GUI(tk.Frame):
         tk.Frame.__init__(self, self.master)
         self.gui = self.configure_gui()
         self.bar = self.configure_bar()
+        self.importedFiles = []
 
     def configure_gui(self):
         self.master.geometry("1280x760")
@@ -24,7 +25,7 @@ class GUI(tk.Frame):
     def configure_bar(self):
         menuBar = Menu(self.master, foreground='black')
         fileMenu = Menu(menuBar, tearoff=False)
-        fileMenu.add_command(label="Import", command=self.open_dialog)
+        fileMenu.add_command(label="Import", command=self.importFile)
         fileMenu.add_command(label="Export")
         menuBar.add_cascade(label="File",menu=fileMenu)
 
@@ -35,10 +36,11 @@ class GUI(tk.Frame):
 
         self.master.config(menu=menuBar)
 
-    def open_dialog(self):
+    def importFile(self):
         self.master.filename = filedialog.askopenfilename(initialdir = "/", title = "Select your Files", filetypes = [('All files', '*.mp4')])
-        if self.master.filename is not None:
-            clip = VideoFileClip(self.master.filename)
+        # if self.master.filename is not None:
+        #     file = VideoFile(self.master.filename)
+        #     self.importedFiles.append(file)
 
 if __name__ == '__main__':
     root = tk.Tk()
