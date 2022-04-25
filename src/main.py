@@ -38,9 +38,6 @@ class GUI(tk.Frame):
 
     def importFile(self):
         self.master.filename = filedialog.askopenfilename(initialdir = "/", title = "Select your Files", filetypes = [('All files', '*.mp4')])
-        # if self.master.filename is not None:
-        #     file = VideoFile(self.master.filename)
-        #     self.importedFiles.append(file)
 
 if __name__ == '__main__':
     root = tk.Tk()
