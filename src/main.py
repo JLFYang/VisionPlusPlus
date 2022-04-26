@@ -30,7 +30,7 @@ class GUI(tk.Frame):
         menuBar.add_cascade(label="File",menu=fileMenu)
 
         functionMenu = Menu(menuBar, tearoff=False)
-        functionMenu.add_command(label="Trim")
+        functionMenu.add_command(label="Trim", command=self.trim)
         functionMenu.add_command(label="Cut")
         menuBar.add_cascade(label="Functions", menu=functionMenu)
 
@@ -42,6 +42,11 @@ class GUI(tk.Frame):
 
     def exportFile(self):
         self.master.finalClip.write_videofile("Test.mp4")
+
+    def trim(self):
+        start = int(input("Enter Starting: "))
+        end = int(input("Enter Ending: "))
+        self.master.finalClip = self.master.finalClip.subclip(start, end)
 
 
 if __name__ == '__main__':
