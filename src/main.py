@@ -7,7 +7,7 @@ from tkinter import filedialog
 from tkinter import Menu
 
 from moviepy.config import change_settings
-change_settings({"IMAGEMAGIC_BINARY": r"C:\Program Files\ImageMagick-7.1.0-Q16-HDRI\\magick.exe"})
+change_settings({"IMAGEMAGIC_BINARY": r"C:\Program Files\ImageMagick-7.1.0-Q16-HDRI\magick.exe"})
 
 class GUI(tk.Frame):
     def __init__(self, master):
@@ -26,7 +26,7 @@ class GUI(tk.Frame):
         menuBar = Menu(self.master, foreground='black')
         fileMenu = Menu(menuBar, tearoff=False)
         fileMenu.add_command(label="Import", command=self.importFile)
-        fileMenu.add_command(label="Export")
+        fileMenu.add_command(label="Export", command=self.exportFile)
         menuBar.add_cascade(label="File",menu=fileMenu)
 
         functionMenu = Menu(menuBar, tearoff=False)
@@ -38,6 +38,11 @@ class GUI(tk.Frame):
 
     def importFile(self):
         self.master.filename = filedialog.askopenfilename(initialdir = "/", title = "Select your Files", filetypes = [('All files', '*.mp4')])
+        self.master.finalClip = VideoFileClip(self.master.filename)
+
+    def exportFile(self):
+        self.master.finalClip.write_videofile("Test.mp4")
+
 
 if __name__ == '__main__':
     root = tk.Tk()
